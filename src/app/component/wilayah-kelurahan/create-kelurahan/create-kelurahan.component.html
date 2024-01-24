@@ -1,0 +1,172 @@
+<div class="container-fluid">
+  <div class="m-2">
+    <h1 class="title">Buat Kelurahan</h1>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <form (ngSubmit)="createKelurahan()" [formGroup]="formValidasi">
+        <mat-card
+          [ngClass]="{ loading: isLoading }"
+          class="mb-5 toCenter"
+          style="width: 655px; height: 620px"
+        >
+          <div *ngIf="data">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>ID Kelurahan</mat-label>
+              <input
+                matInput
+                formControlName="idKelurahan"
+                name="idKelurahan"
+                required
+                appearance="outline"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Kelurahan</mat-label>
+              <input
+                matInput
+                formControlName="namaKelurahan"
+                name="namaKelurahan"
+                oninput="this.value = this.value.toUpperCase()"
+                required
+                appearance="outline"
+                [(ngModel)]="namaKelurahan"
+                maxlength="50"
+              />
+
+              <mat-error
+                *ngIf="formValidasi.controls.namaKelurahan.hasError('required')"
+              >
+                Kelurahan tidak boleh kosong
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  !formValidasi.controls.namaKelurahan.hasError('required') &&
+                  !formValidasi.controls.namaKelurahan.valid
+                "
+              >
+                Invalid
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Kode Pos</mat-label>
+              <input
+                matInput
+                formControlName="kodePos"
+                name="kodePos"
+                required
+                appNumberOnly
+                appearance="outline"
+                [(ngModel)]="kodePos"
+              />
+              <mat-error
+                *ngIf="formValidasi.get('kodePos')?.hasError('required')"
+                >Kode Pos tidak boleh kosong</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  formValidasi.get('kodePos')?.hasError('minlength') ||
+                  formValidasi.get('kodePos')?.hasError('maxlength')
+                "
+                >Kode Pos harus memiliki panjang 5 karakter</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field
+              appearance="outline"
+              style="width: 100%"
+              (click)="getDataKecamatan()"
+            >
+              <mat-label> Kecamatan</mat-label>
+              <input
+                matInput
+                formControlName="namaKecamatan"
+                name="namaKecamatan"
+                appAlfabetOnly
+                required
+                appearance="outline"
+                [(ngModel)]="namaKecamatan"
+              />
+              <img
+                matSuffix
+                src="/assets/icons/searchBox.svg"
+                style="
+                  margin-bottom: 14px;
+                  margin-right: 5px;
+                  height: 15px;
+                  width: 15px;
+                "
+              />
+              <mat-error>Kecamatan tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Kabupaten/Kota</mat-label>
+              <mat-select
+                [(ngModel)]="selectIdKabupaten"
+                formControlName="selectIdKabupaten"
+                name="selectIdKabupaten"
+                required
+              >
+                <mat-option>None</mat-option>
+                <mat-option
+                  *ngFor="let element of dataKabupaten"
+                  [value]="element.cityId"
+                  >{{ element.cityId + " - " + element.cityName }}</mat-option
+                >
+              </mat-select>
+              <mat-error>Kabupaten/Kota tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Provinsi</mat-label>
+              <mat-select
+                [(ngModel)]="selectIdProvinsi"
+                formControlName="selectIdProvinsi"
+                name="selectIdProvinsi"
+                required
+              >
+                <mat-option>None</mat-option>
+                <mat-option
+                  *ngFor="let element of dataProvinsi"
+                  [value]="element.provinceId"
+                  >{{
+                    element.provinceId + " - " + element.provinceName
+                  }}</mat-option
+                >
+              </mat-select>
+              <mat-error>Provinsi tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Negara</mat-label>
+              <mat-select
+                required
+                [(ngModel)]="selectIdNegara"
+                formControlName="selectIdNegara"
+                name="selectIdNegara"
+              >
+                <mat-option>None</mat-option>
+                <mat-option
+                  *ngFor="let element of dataNegara"
+                  [value]="element.countryId"
+                  >{{
+                    element.countryId + " - " + element.countryNameIdn
+                  }}</mat-option
+                >
+              </mat-select>
+              <mat-error>Negara tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="mx-3">
+              <!-- (click)="createKelurahan()" -->
+              Save
+            </button>
+            <button
+              mat-raised-button
+              routerLink="/wilayah-kelurahan-auth/{{ token }}"
+            >
+              Cancel
+            </button>
+          </div>
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

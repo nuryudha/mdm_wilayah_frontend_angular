@@ -1,0 +1,128 @@
+<div class="container-fluid">
+  <div class="m-2">
+    <h1 class="title">Buat Kecamatan</h1>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <form (ngSubmit)="createKecamatan()" [formGroup]="formValidasi">
+        <mat-card
+          [ngClass]="{ loading: isLoading }"
+          class="mb-5 toCenter"
+          style="width: 655px; height: 455px"
+        >
+          <div *ngIf="data">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>ID Kecamatan</mat-label>
+              <input
+                matInput
+                formControlName="idKecamatan"
+                name="idKecamatan"
+                required
+                appearance="outline"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Kecamatan</mat-label>
+              <input
+                matInput
+                formControlName="namaKecamatan"
+                name="namaKecamatan"
+                [(ngModel)]="namaKecamatan"
+                oninput="this.value = this.value.toUpperCase()"
+                required
+                appearance="outline"
+                maxlength="50"
+              />
+              <mat-error
+                *ngIf="formValidasi.controls.namaKecamatan.hasError('required')"
+              >
+                Kecamatan tidak boleh kosong
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  !formValidasi.controls.namaKecamatan.hasError('required') &&
+                  !formValidasi.controls.namaKecamatan.valid
+                "
+              >
+                Invalid
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field
+              appearance="outline"
+              style="width: 100%"
+              (click)="getDataKabupaten()"
+            >
+              <mat-label>Kabupaten/Kota </mat-label>
+              <input
+                matInput
+                formControlName="namaKabupaten"
+                name="namaKabupaten"
+                [(ngModel)]="namaKabupaten"
+                appAlfabetOnly
+                required
+                appearance="outline"
+              />
+              <img
+                matSuffix
+                src="/assets/icons/searchBox.svg"
+                style="
+                  margin-bottom: 14px;
+                  margin-right: 5px;
+                  height: 15px;
+                  width: 15px;
+                "
+              />
+              <mat-error>Kabupaten/Kota tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Provinsi</mat-label>
+              <mat-select
+                [(ngModel)]="selectNameProvinsi"
+                formControlName="selectIdProvinsi"
+                name="selectIdProvinsi"
+                required
+              >
+                <mat-option>None</mat-option>
+                <mat-option
+                  *ngFor="let element of dataProvinsi"
+                  [value]="element.provinceName"
+                  >{{
+                    element.provinceId + " - " + element.provinceName
+                  }}</mat-option
+                >
+              </mat-select>
+              <mat-error>Provinsi tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Negara</mat-label>
+              <mat-select
+                required
+                [(ngModel)]="selectNameNegara"
+                formControlName="selectIdNegara"
+                name="selectIdNegara"
+              >
+                <mat-option>None</mat-option>
+                <mat-option
+                  *ngFor="let element of dataNegara"
+                  [value]="element.countryNameIdn"
+                  >{{
+                    element.countryId + " - " + element.countryNameIdn
+                  }}</mat-option
+                >
+              </mat-select>
+              <mat-error>Negara tidak boleh kosong </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="mx-3">Save</button>
+            <button
+              mat-raised-button
+              routerLink="/wilayah-kecamatan-auth/{{ token }}"
+            >
+              Cancel
+            </button>
+          </div>
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

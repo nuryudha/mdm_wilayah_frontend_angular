@@ -1,0 +1,75 @@
+table {
+  margin: 0;
+}
+
+.title {
+  font-family: Roboto;
+  font-size: 28px;
+  color: rgb(97, 97, 97);
+  font-weight: 500;
+}
+
+tr.element-hover:not(.example-expanded-row):hover {
+  background: rgb(231, 231, 231);
+}
+
+mat-card {
+  border-radius: 10px;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 1px;
+  box-sizing: border-box;
+}
+.noev {
+  padding: 0;
+  margin: 0;
+}
+mat-paginator {
+  margin-top: 10px;
+}
+
+.textHeader {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.mat-column-action {
+  text-align: center;
+}
+
+.mat-column-countryId {
+  text-align: center;
+}
+
+.mat-column-id {
+  text-align: center;
+}
+
+.toCenter {
+  margin: 0 auto;
+  display: block;
+}
+
+button.mat-icon-button:hover {
+  background-color: rgb(153, 153, 153);
+}
+
+.btnYellow {
+  background-color: #ffc107;
+}
+.btnYellow:hover {
+  background-color: #d9a50b;
+}
+
+.cardErrorRed {
+  background-color: rgb(255, 199, 199);
+  color: rgb(99, 25, 25);
+}
+
+.noData {
+  font-family: Roboto;
+  color: rgb(97, 97, 97);
+  font-weight: 500;
+  background-color: #f2f2f2;
+  font-size: 1.25rem !important;
+}

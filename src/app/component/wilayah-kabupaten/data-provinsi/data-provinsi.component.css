@@ -1,0 +1,42 @@
+.toCenter {
+  margin: 0 auto;
+  display: block;
+}
+tr.element-hover:hover {
+  background: rgb(231, 231, 231);
+}
+
+.btnYellow {
+  background-color: #ffc107;
+}
+.btnYellow:hover {
+  background-color: #d9a50b;
+}
+
+.title {
+  font-family: Roboto;
+  font-size: 28px;
+  color: rgb(97, 97, 97);
+  font-weight: 500;
+}
+
+table {
+  margin: 0;
+}
+
+.textHeader {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+mat-paginator {
+  margin-top: 10px;
+}
+
+.noData {
+  font-family: Roboto;
+  color: rgb(97, 97, 97);
+  font-weight: 500;
+  background-color: #f2f2f2;
+  font-size: 1.25rem !important;
+}

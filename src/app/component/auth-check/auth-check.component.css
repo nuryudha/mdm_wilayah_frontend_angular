@@ -1,0 +1,35 @@
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* mengisi layar penuh */
+}
+
+.loader {
+  width: 120px;
+  height: 120px;
+  border: 14px solid #fff;
+  border-bottom-color: #2a62da;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.text {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

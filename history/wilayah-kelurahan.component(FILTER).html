@@ -1,0 +1,334 @@
+<div class="container-fluid">
+  <div class="d-flex flex-row-reverse mt-3">
+    <button
+      mat-raised-button
+      routerLink="/create-kelurahan-auth/{{ token }}"
+      color="primary"
+      style="height: 50px; font-size: 18px"
+    >
+      <img
+        src="/assets/icons/add.svg"
+        style="margin-right: 8px; height: 18px; width: 18px"
+      />
+      Create New
+    </button>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <mat-card class="toCenter" style="width: 100%">
+        <form [formGroup]="formValidasi">
+          <div class="row">
+            <h1 class="col title ml-3 mt-3 mb-5">Kelurahan</h1>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              <h4 class="label-filter ml-3">Status</h4>
+            </div>
+            <div class="col">
+              <mat-radio-group formControlName="status">
+                <mat-radio-button class="mr-5" [color]="'primary'" value="aktif"
+                  >Aktif</mat-radio-button
+                >
+                <mat-radio-button
+                  class="mr-5"
+                  [color]="'primary'"
+                  value="tidak aktif"
+                  >Tidak Aktif</mat-radio-button
+                >
+                <mat-radio-button class="mr-5" [color]="'primary'" value="all"
+                  >All</mat-radio-button
+                >
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              <h4 class="label-filter ml-3">Filter</h4>
+            </div>
+            <div class="col">
+              <mat-radio-group formControlName="filter">
+                <mat-radio-button
+                  class="mr-5"
+                  value="kelurahan"
+                  [color]="'primary'"
+                  >Kelurahan</mat-radio-button
+                >
+                <mat-radio-button
+                  class="mr-5"
+                  value="kodePos"
+                  [color]="'primary'"
+                  >Kode Pos</mat-radio-button
+                >
+                <mat-radio-button
+                  class="mr-5"
+                  value="kecamatan"
+                  [color]="'primary'"
+                  >Kecamatan</mat-radio-button
+                >
+                <mat-radio-button
+                  class="mr-5"
+                  value="kabupatenKota"
+                  [color]="'primary'"
+                  >Kabupaten/Kota</mat-radio-button
+                >
+                <mat-radio-button
+                  class="mr-5"
+                  value="provinsi"
+                  [color]="'primary'"
+                  >Provinsi</mat-radio-button
+                >
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              <h4 class="label-filter ml-3">Description</h4>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="standard" style="width: 30%">
+                <input matInput formControlName="description" />
+              </mat-form-field>
+              <button
+                style="height: 40px; width: 110px; font-size: 13px"
+                color="primary"
+                class="mr-4 ml-5"
+                mat-raised-button
+                (click)="searchKelurahan()"
+              >
+                <img
+                  src="/assets/icons/search.svg"
+                  style="
+                    margin-bottom: 2px;
+                    margin-right: 6px;
+                    height: 18px;
+                    width: 18px;
+                  "
+                />
+                Cari
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div>
+          <div class="toCenter" style="width: 100%">
+            <div class="mx-3">
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                style="width: 100%"
+                #sort="matSort"
+                matSort
+              >
+                <!-- No Column -->
+                <ng-container matColumnDef="no" style="width: 5%">
+                  <th mat-header-cell *matHeaderCellDef class="textHeader">
+                    No.
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.no }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom ID Kelurahan -->
+                <ng-container matColumnDef="villageId">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 7%"
+                    class="textHeader"
+                  >
+                    ID Kelurahan
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.villageId }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom Nama Kelurahan -->
+                <ng-container matColumnDef="villageName">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 11%"
+                    class="textHeader"
+                  >
+                    Kelurahan
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.villageName }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom Kode Pos -->
+                <ng-container matColumnDef="villagePostalCode">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 7%"
+                    class="textHeader"
+                  >
+                    Kode Pos
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.villagePostalCode }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom Nama Kecamatan -->
+                <ng-container matColumnDef="districtName">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 14%"
+                    class="textHeader"
+                  >
+                    Kecamatan
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.districtName }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom Nama Kabupaten -->
+                <ng-container matColumnDef="cityName">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 19%"
+                    class="textHeader"
+                  >
+                    Kabupaten/Kota
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.cityName }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom Nama Provinsi -->
+                <ng-container matColumnDef="provinceName">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 19%"
+                    class="textHeader"
+                  >
+                    Provinsi
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.provinceName }}
+                  </td>
+                </ng-container>
+
+                <!-- Kolom Nama negara -->
+                <ng-container matColumnDef="countryNameIdn">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 9%"
+                    class="textHeader"
+                  >
+                    Negara
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.countryNameIdn }}
+                  </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    style="width: 9%"
+                    class="textHeader"
+                  >
+                    Action
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      routerLink="/edit-kelurahan-auth/{{
+                        element.villageId
+                      }}/{{ token }}"
+                    >
+                      <img
+                        src="/assets/icons/edit.svg"
+                        style="height: 24px; width: 24px"
+                      />
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteKelurahan(element)"
+                    >
+                      <img
+                        src="/assets/icons/delete.svg"
+                        style="height: 24px; width: 24px"
+                      />
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td
+                    class="mat-cell text-center fs-5"
+                    colspan="8"
+                    *ngIf="isLoading"
+                  >
+                    <mat-spinner class="container mt-5 mb-5"></mat-spinner>
+                  </td>
+                  <td class="" colspan="9" *ngIf="error">
+                    <div class="alert alert-danger" role="alert">
+                      <i class="fas fa-exclamation-circle mr-2"></i>
+                      <strong>Error!</strong>
+                      Service Unavailable
+                      <i
+                        class="fas fa-redo-alt ml-3"
+                        (click)="getKelurahan()"
+                        style="cursor: pointer"
+                      ></i>
+                    </div>
+                  </td>
+                  <td
+                    class="mat-cell text-center fs-5 noData"
+                    colspan="8"
+                    *ngIf="noData"
+                  >
+                    No Data Available!
+                  </td>
+                </tr>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumns"
+                  style="border-top: 1px solid rgb(224, 224, 224)"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  class="element-hover"
+                ></tr>
+              </table>
+              <div class="mb-3">
+                <mat-paginator
+                  #paginator
+                  showFirstLastButtons
+                  (page)="handlePageEvent($event)"
+                  [length]="totalRec"
+                  [pageSize]="pageSize"
+                  [pageIndex]="pageIndex"
+                  [pageSizeOptions]="pageSizeOptions"
+                  aria-label="Select page"
+                >
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

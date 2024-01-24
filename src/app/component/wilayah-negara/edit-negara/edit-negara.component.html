@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="m-2">
+    <h1  class="title">Edit Negara</h1>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <form (ngSubmit)="saveEdit()" [formGroup]="formValidasi">
+        <mat-card
+          [ngClass]="{ loading: isLoading }"
+          class="mb-5 toCenter"
+          style="width: 40%; height: 172px"
+        >
+          <div *ngIf="data">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>ID Negara</mat-label>
+              <input
+                matInput
+                formControlName="idNegara"
+                name="idNegara"
+                appAlfabetOnly
+                oninput="this.value = this.value.toUpperCase()"
+                [(ngModel)]="idNegara"
+                required
+                appearance="outline"
+                maxlength="2"
+              />
+
+              <mat-error
+              *ngIf="formValidasi.controls.idNegara.hasError('required')"
+            >
+              ID Negara tidak boleh kosong
+            </mat-error>
+            <mat-error
+              *ngIf="
+                !formValidasi.controls.idNegara.hasError('required') &&
+                !formValidasi.controls.idNegara.valid
+              "
+            >
+              Invalid
+            </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Nama Negara</mat-label>
+              <input
+                matInput
+                formControlName="namaNegara"
+                name="namaNegara"
+                appAlfabetOnly
+                oninput="this.value = this.value.toUpperCase()"
+                [(ngModel)]="namaNegara"
+                required
+                appearance="outline"
+              />
+
+              <mat-error
+              *ngIf="formValidasi.controls.namaNegara.hasError('required')"
+            >
+              ID Negara tidak boleh kosong
+            </mat-error>
+            <mat-error
+              *ngIf="
+                !formValidasi.controls.namaNegara.hasError('required') &&
+                !formValidasi.controls.namaNegara.valid
+              "
+            >
+              Invalid
+            </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="mx-3">Save</button>
+            <button mat-raised-button routerLink="/wilayah-negara-auth/{{token}}">
+              Cancel
+            </button>
+          </div>
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>
