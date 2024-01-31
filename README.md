@@ -2,6 +2,17 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
 
+## Notes Commit
+
+maintenance_token_2
+commit : penyesuaian penggunaan service di ui wilayah dan loading data
+desc :
+
+1. pada bagian kelurahan sudah optimal pada bagian get atau tampilan awal baik search juga sudah ada loading dan pakai await jadi datanya harus menunggu di get 1 1 . jadi minim error mungkin tapi kalau mau di perbaiki mungkin dibuat reusable pada beberapa bagian karena masih mengulang
+2. pada bagian edit juga sudah optimal menggunakan await yang datanya harus menunggu dahulu supaya data dapat disentuh. mungkin kedepannya harus menerapkan juga di edit kelurahan
+3. untuk data kecamatan di keluarahan juga perlu di optimalkan
+4. SETELAH SELESAI maka bisa dibuild dulu di dev. tapi tentu saja demo dulu ke backend
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

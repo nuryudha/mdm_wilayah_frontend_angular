@@ -19,6 +19,10 @@ mat-spinner {
   transform: translate(-50%, -50%) scale(0.7);
   z-index: 0;
   margin: 0 auto;
+  -webkit-transform: translate(-50%, -50%) scale(0.7);
+  -moz-transform: translate(-50%, -50%) scale(0.7);
+  -ms-transform: translate(-50%, -50%) scale(0.7);
+  -o-transform: translate(-50%, -50%) scale(0.7);
 }
 
 mat-card.loading {

@@ -117,6 +117,9 @@
                 </div>
               </div>
             </div>
+            <div class="table-loading-overlay" *ngIf="isLoading">
+              <mat-spinner diameter="90" class="loading-spinner"></mat-spinner>
+            </div>
           </div>
         </form>
 
@@ -268,6 +271,7 @@
                 </ng-container>
 
                 <!-- Action Column -->
+
                 <ng-container matColumnDef="action">
                   <th
                     mat-header-cell
@@ -290,26 +294,16 @@
                         style="height: 24px; width: 24px"
                       />
                     </button>
-                    <!-- <button
-                      mat-icon-button
-                      color="warn"
-                      (click)="deleteKelurahan(element)"
-                    >
-                      <img
-                        src="/assets/icons/delete.svg"
-                        style="height: 24px; width: 24px"
-                      />
-                    </button> -->
                   </td>
                 </ng-container>
 
                 <tr class="mat-row" *matNoDataRow>
                   <td
-                    class="mat-cell text-center fs-5"
+                    class="mat-cell text-center fs-5 noData"
                     colspan="10"
                     *ngIf="isLoading"
                   >
-                    <mat-spinner class="container mt-5 mb-5"></mat-spinner>
+                    Loading...
                   </td>
                   <td class="" colspan="10" *ngIf="error">
                     <div class="alert alert-danger" role="alert">
