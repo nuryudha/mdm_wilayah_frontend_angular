@@ -4,7 +4,7 @@ export interface Provinsi {
   countryNameIdn: any;
   provinceId: any;
   provinceName: any;
-  status: any;
+  // status: any;
 }
 
 export interface DataProvinsi {

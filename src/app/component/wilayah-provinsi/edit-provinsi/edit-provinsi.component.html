@@ -61,46 +61,21 @@
               <mat-error>Negara tidak boleh kosong </mat-error>
             </mat-form-field>
 
-            <div class="d-flex">
-              <div class="mr-auto">
-                <button
-                  mat-raised-button
-                  *ngIf="flag === false"
-                  color="warn"
-                  (click)="changeStatus()"
-                >
-                  Non Aktifkan
-                </button>
-                <button
-                  mat-raised-button
-                  *ngIf="flag === true"
-                  color="warn"
-                  (click)="changeStatus()"
-                  style="background-color: green"
-                >
-                  Aktifkan
-                </button>
-              </div>
-              <div>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="mr-3"
-                  (click)="saveEditProvinsi()"
-                  [disabled]="flag"
-                >
-                  Save
-                </button>
-              </div>
-              <div>
-                <button
-                  mat-raised-button
-                  routerLink="/wilayah-provinsi-auth/{{ token }}"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+            <button
+              mat-raised-button
+              color="primary"
+              class="mr-3"
+              (click)="saveEditProvinsi()"
+              [disabled]="flag"
+            >
+              Save
+            </button>
+            <button
+              mat-raised-button
+              routerLink="/wilayah-provinsi-auth/{{ token }}"
+            >
+              Cancel
+            </button>
           </div>
           <mat-spinner *ngIf="isLoading"></mat-spinner>
         </mat-card>

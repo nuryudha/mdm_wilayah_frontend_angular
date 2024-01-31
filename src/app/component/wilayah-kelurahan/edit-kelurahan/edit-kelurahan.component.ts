@@ -241,13 +241,13 @@ export class EditKelurahanComponent implements OnInit {
         });
       } else if (
         this.formValidasi.controls.kodePos.value &&
-        this.formValidasi.controls.kodePos.value.length < 5
+        this.formValidasi.controls.kodePos.value.length < 4
       ) {
-        // ! Menampilkan Swal jika length kodepos harus 5
+        // ! Menampilkan Swal jika length kodepos kurang dari 4
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: 'Panjang Kode Pos harus 5 karakter',
+          title: 'Panjang Kode Pos minimal 4 karakter',
           showConfirmButton: false,
           timer: 1500,
         });
@@ -352,10 +352,7 @@ export class EditKelurahanComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern(/^[\w]+(?:\s[\w]+)*$/)],
       ],
-      kodePos: [
-        '',
-        [Validators.required, Validators.minLength(5), Validators.maxLength(5)],
-      ],
+      kodePos: ['', [Validators.required]],
       namaKecamatan: ['', [Validators.required]],
       selectIdKabupaten: { value: '', disabled: true },
       selectIdProvinsi: { value: '', disabled: true },

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
 import { ErrorRequestService } from 'src/app/shared/handle-error/error-request.service';
@@ -11,6 +10,8 @@ import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { WilayahService } from '../../services/wilayah.service';
 import { catchError } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { EventHandlerVars } from '@angular/compiler/src/compiler_util/expression_converter';
 
 @Component({
   selector: 'app-wilayah-kelurahan',
@@ -33,7 +34,8 @@ export class WilayahKelurahanComponent implements OnInit {
 
   ngOnInit(): void {
     this.cekValidasi();
-    this.getKelurahan();
+
+    this.getKelurahanByStatus(this.status);
     console.log(this.nik);
     this.title.setTitle('Kelurahan');
   }
@@ -77,11 +79,12 @@ export class WilayahKelurahanComponent implements OnInit {
   noData = false;
   nik: any;
   token: any;
-  formValidasi!: FormGroup;
-  url: string = '';
   status: string = '';
+  formValidasi!: FormGroup;
+  url: any;
+  flag: boolean | undefined;
 
-  getKelurahan() {
+  getKelurahan(url?: any): void {
     this.httpOptions.headers = this.httpHeaders.set(
       'Authorization',
       `Bearer ${this.token}`
@@ -91,12 +94,12 @@ export class WilayahKelurahanComponent implements OnInit {
     this.error = false;
     this.dataKeluarahan = [];
     this.dataSource = new MatTableDataSource(this.dataKeluarahan);
+    if (url) {
+      console.log(url);
+    }
     this.wilayahService
       .getAllc(
-        'village/?sort=villageName,asc&page=' +
-          this.pageIndex +
-          '&size=' +
-          this.pageSize,
+        url,
         this.httpOptions,
         catchError(this.handleError.handleErrorDetailUser.bind(this))
       )
@@ -159,20 +162,31 @@ export class WilayahKelurahanComponent implements OnInit {
     this.pageEvent = e;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    // * getKelurahan
+
+    //  getKelurahan
     this.dataKeluarahan = [];
     this.dataSource = new MatTableDataSource(this.dataKeluarahan);
-    if (this.searchData == null) {
+
+    console.log(this.flag);
+    console.log(this.pageIndex);
+
+    if (this.flag === undefined) {
+      // Exclude flag.equals parameter from the URL
+      this.url = `village/?sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
+    } else {
+      // Include flag.equals parameter in the URL
+      this.url = `village/?sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}&flag.equals=${this.flag}`;
+    }
+    // const searchData = this.formValidasi.get('searchData')?.value;
+
+    if (this.searchData == '') {
       this.httpOptions.headers = this.httpHeaders.set(
         'Authorization',
         `Bearer ${this.token}`
       );
       this.wilayahService
         .getAllc(
-          'village/?sort=villageName,asc&page=' +
-            this.pageIndex +
-            '&size=' +
-            this.pageSize,
+          this.url,
           this.httpOptions,
           catchError(this.handleError.handleErrorDetailUser.bind(this))
         )
@@ -182,6 +196,8 @@ export class WilayahKelurahanComponent implements OnInit {
             this.pageSize = e.pageSize;
             this.pageIndex = e.pageIndex;
             this.totalRec = res.body.paging.totalrecord;
+            console.log(res.body.paging.totalrecord);
+
             res.body.result.forEach((element: any, index: any) => {
               if (element.flag === false) {
                 this.status = 'AKTIF';
@@ -206,24 +222,21 @@ export class WilayahKelurahanComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.dataKeluarahan);
           },
           (error) => {
-            // console.log(error);
-            this.isLoading = false;
-            this.error = true;
+            const errorMessage =
+              error.status === 500
+                ? 'Internal Server Error'
+                : 'Unexpected error occurred';
+
             const Toast = Swal.mixin({
               toast: true,
               position: 'top-end',
               showConfirmButton: false,
               timer: 3000,
-
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
-              },
             });
 
             Toast.fire({
               icon: 'error',
-              title: 'Service Unavailable',
+              title: errorMessage,
             });
           }
         );
@@ -233,7 +246,6 @@ export class WilayahKelurahanComponent implements OnInit {
         `Bearer ${this.token}`
       );
       this.dataSearchKeluarahan = [];
-      console.log('this.url : ' + this.url);
       this.wilayahService
         .getAllc(
           'village/?villageId.contains=' +
@@ -261,6 +273,13 @@ export class WilayahKelurahanComponent implements OnInit {
           (res) => {
             this.totalRec = res.body.paging.totalrecord;
             res.body.result.forEach((element: any, index: any) => {
+              if (element.flag === false) {
+                this.status = 'AKTIF';
+              } else if (element.flag === true) {
+                this.status = 'TIDAK AKTIF';
+              } else {
+                this.status = 'ERROR';
+              }
               this.dataSearchKeluarahan.push({
                 no: this.pageIndex * this.pageSize + index + 1 + '.',
                 villageId: element.villageId,
@@ -270,6 +289,7 @@ export class WilayahKelurahanComponent implements OnInit {
                 cityName: element.cityName,
                 provinceName: element.provinceName,
                 countryNameIdn: element.countryNameIdn,
+                status: this.status,
               });
             });
             this.isLoading = false;
@@ -301,7 +321,6 @@ export class WilayahKelurahanComponent implements OnInit {
   }
 
   searchKelurahan() {
-    this.urlSearch();
     this.httpOptions.headers = this.httpHeaders.set(
       'Authorization',
       `Bearer ${this.token}`
@@ -338,6 +357,13 @@ export class WilayahKelurahanComponent implements OnInit {
         (res) => {
           this.totalRec = res.body.paging.totalrecord;
           res.body.result.forEach((element: any, index: any) => {
+            if (element.flag === false) {
+              this.status = 'AKTIF';
+            } else if (element.flag === true) {
+              this.status = 'TIDAK AKTIF';
+            } else {
+              this.status = 'ERROR';
+            }
             this.dataSearchKeluarahan.push({
               no: this.pageIndex * this.pageSize + index + 1 + '.',
               villageId: element.villageId,
@@ -347,11 +373,13 @@ export class WilayahKelurahanComponent implements OnInit {
               cityName: element.cityName,
               provinceName: element.provinceName,
               countryNameIdn: element.countryNameIdn,
+              status: this.status,
             });
           });
           this.isLoading = false;
           this.noData = true;
           this.dataSource = new MatTableDataSource(this.dataSearchKeluarahan);
+          this.dataSearchKeluarahan = [];
         },
         (error) => {
           // console.log(error);
@@ -380,6 +408,7 @@ export class WilayahKelurahanComponent implements OnInit {
   onSearchChange() {
     this.noData = false;
     if (this.searchData === '') {
+      this.isLoading = true;
       this.searchKelurahan();
     } else {
     }
@@ -450,32 +479,33 @@ export class WilayahKelurahanComponent implements OnInit {
 
   cekValidasi() {
     this.formValidasi = this.formBuilder.group({
-      status: ['all'],
-      filter: '',
-      description: '',
+      statusData: 'all',
+      searchData: '',
     });
+    this.searchData = this.formValidasi.get('searchData')!.value;
   }
+  getKelurahanByStatus(event: any): void {
+    const selectedValue = event.value;
 
-  urlSearch() {
-    const filterValue = this.formValidasi.get('description')!.value;
-    const filterType = this.formValidasi.get('filter')!.value;
-    const statusValue = this.formValidasi.get('status')!.value;
-
-    if (filterType === 'kelurahan') {
-      this.url = `village/?villageName.contains=${filterValue}&sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
-    } else if (filterType === 'kodePos') {
-      this.url = `village/?villagePostalCode.contains=${filterValue}&sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
-    } else if (filterType === 'kecamatan') {
-      this.url = `village/?districtName.contains=${filterValue}&sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
-    } else if (filterType === 'kabupatenKota') {
-      this.url = `village/?cityName.contains=${filterValue}&sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
-    } else if (filterType === 'provinsi') {
-      this.url = `village/?provinceName.contains=${filterValue}&sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
-    } else {
-      this.url = `village/?sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
+    if (selectedValue === 'aktif') {
+      this.flag = false;
+    } else if (selectedValue === 'tidak aktif') {
+      this.flag = true;
+    } else if (selectedValue === 'all') {
+      this.flag = undefined;
     }
 
-    console.log('this.url : ' + this.url);
-    console.log('this.status : ' + statusValue);
+    this.url = this.buildUrlWithFlag(this.flag);
+    this.getKelurahan(this.url);
+  }
+
+  private buildUrlWithFlag(flag: boolean | undefined): string {
+    let url = `village/?sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}`;
+
+    if (flag !== undefined) {
+      url += `&flag.equals=${flag}`;
+    }
+
+    return url;
   }
 }

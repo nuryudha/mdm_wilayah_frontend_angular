@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
 import { ErrorRequestService } from 'src/app/shared/handle-error/error-request.service';
@@ -26,8 +25,7 @@ export class WilayahProvinsiComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private title: Title,
-    private handleError: ErrorRequestService,
-    private formBuilder: FormBuilder
+    private handleError: ErrorRequestService
   ) {
     this.token = this.authUser.token;
     this.nik = this.authUser.profileHeader.nik;
@@ -36,7 +34,6 @@ export class WilayahProvinsiComponent implements OnInit {
   authUser: any = JSON.parse(localStorage.getItem('auth-user') || '{}');
 
   ngOnInit(): void {
-    this.cekValidasi();
     this.getProvince();
     console.log(this.nik);
     this.title.setTitle('Provinsi');
@@ -59,7 +56,7 @@ export class WilayahProvinsiComponent implements OnInit {
     'provinceId',
     'provinceName',
     'countryNameIdn',
-    'status',
+    // 'status',
     'action',
   ];
   totalRec: any;
@@ -77,7 +74,6 @@ export class WilayahProvinsiComponent implements OnInit {
   noData = false;
   nik: any;
   status: string = '';
-  formValidasi!: FormGroup;
 
   token: any;
 
@@ -123,7 +119,7 @@ export class WilayahProvinsiComponent implements OnInit {
               countryId: element.countryId,
               provinceId: element.provinceId,
               provinceName: element.provinceName,
-              status: this.status,
+              // status: this.status,
             });
           });
           this.isLoading = false;
@@ -204,7 +200,7 @@ export class WilayahProvinsiComponent implements OnInit {
                 countryNameIdn: element.countryNameIdn,
                 provinceId: element.provinceId,
                 provinceName: element.provinceName,
-                status: this.status,
+                // status: this.status,
               });
             });
             this.isLoading = false;
@@ -266,7 +262,7 @@ export class WilayahProvinsiComponent implements OnInit {
                 countryId: element.countryId,
                 provinceId: element.provinceId,
                 provinceName: element.provinceName,
-                status: this.status,
+                // status: this.status,
               });
             });
             this.isLoading = false;
@@ -339,7 +335,7 @@ export class WilayahProvinsiComponent implements OnInit {
               countryId: element.countryId,
               provinceId: element.provinceId,
               provinceName: element.provinceName,
-              status: this.status,
+              // status: this.status,
             });
           });
           this.isLoading = false;
@@ -440,23 +436,5 @@ export class WilayahProvinsiComponent implements OnInit {
           );
       }
     });
-  }
-  cekValidasi() {
-    this.formValidasi = this.formBuilder.group({
-      status: ['all'],
-      idProvinsi: false,
-      provinsi: false,
-      negara: false,
-      description: '',
-    });
-  }
-  searchProvinsi2() {
-    console.log('Filter Form Value:', this.formValidasi.value);
-    const idProvinsiChecked = this.formValidasi.get('idProvinsi')!.value;
-    const descriptionValue = this.formValidasi.get('description')!.value;
-    const provinceIdQuery = idProvinsiChecked
-      ? `?provinceId.contains=${descriptionValue} `
-      : '';
-    console.log(provinceIdQuery);
   }
 }

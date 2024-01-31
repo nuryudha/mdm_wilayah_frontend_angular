@@ -58,18 +58,10 @@
                 appNumberOnly
                 appearance="outline"
                 [(ngModel)]="kodePos"
+                maxlength="5"
+                minlength="4"
               />
-              <mat-error
-                *ngIf="formValidasi.get('kodePos')?.hasError('required')"
-                >Kode Pos tidak boleh kosong</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  formValidasi.get('kodePos')?.hasError('minlength') ||
-                  formValidasi.get('kodePos')?.hasError('maxlength')
-                "
-                >Kode Pos harus memiliki panjang 5 karakter</mat-error
-              >
+              <mat-error> Kode Pos tidak boleh kosong </mat-error>
             </mat-form-field>
             <mat-form-field
               appearance="outline"

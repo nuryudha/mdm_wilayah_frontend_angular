@@ -9,21 +9,6 @@ table {
   font-weight: 500;
 }
 
-.label-filter {
-  font-family: Roboto;
-  font-size: 18px;
-  color: rgb(97, 97, 97);
-  font-weight: 500;
-}
-
-.radioText {
-  display: flex;
-  align-items: flex-end;
-}
-::ng-deep.mat-form-field-appearance-standard .mat-form-field-flex {
-  padding-top: 0 !important;
-}
-
 tr.element-hover:hover {
   background: rgb(231, 231, 231);
 }

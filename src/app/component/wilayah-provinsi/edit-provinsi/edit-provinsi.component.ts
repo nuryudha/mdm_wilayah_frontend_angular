@@ -255,7 +255,7 @@ export class EditProvinsiComponent implements OnInit {
     }
     Swal.fire({
       title: 'Apakah kamu yakin?',
-      text: `Apakah kamu yakin ingin meng${title} data ini?`,
+      text: `Apakah kamu yakin ingin me${title} data ini?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

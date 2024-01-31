@@ -17,101 +17,108 @@
   <div class="row mt-4">
     <div class="col-12">
       <mat-card class="toCenter" style="width: 100%">
-        <div class="row mb-2">
-          <div class="col">
-            <div class="mr-auto">
-              <h1 class="ml-3 mt-3 title">Kelurahan</h1>
+        <form [formGroup]="formValidasi">
+          <div class="row mb-2">
+            <div class="col">
+              <div class="mr-auto">
+                <h1 class="ml-3 mt-3 title">Kelurahan</h1>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row mb-2">
-          <div class="col">
-            <div class="d-flex centerBaseline">
-              <div class="mr-auto">
-                <div class="row mt-4">
-                  <div class="col-2 mr-5 d-flex align-items-end">
-                    <h4 class="label-filter ml-3">Status</h4>
-                  </div>
-                  <div class="col">
-                    <mat-radio-group formControlName="status">
-                      <mat-radio-button
-                        class="mr-5"
-                        [color]="'primary'"
-                        value="aktif"
-                        >Aktif</mat-radio-button
+          <div class="row mb-2">
+            <div class="col">
+              <div class="d-flex centerBaseline">
+                <div class="mr-auto">
+                  <div class="row mt-4">
+                    <div class="col-2 mr-5 d-flex align-items-end">
+                      <h4 class="label-filter ml-3">Status</h4>
+                    </div>
+                    <div class="col">
+                      <mat-radio-group
+                        formControlName="statusData"
+                        (change)="getKelurahanByStatus($event)"
                       >
-                      <mat-radio-button
-                        class="mr-5"
-                        [color]="'primary'"
-                        value="tidak aktif"
-                        >Tidak Aktif</mat-radio-button
-                      >
-                      <mat-radio-button
-                        class="mr-5"
-                        [color]="'primary'"
-                        value="all"
-                        >All</mat-radio-button
-                      >
-                    </mat-radio-group>
+                        <mat-radio-button
+                          class="mr-5"
+                          [color]="'primary'"
+                          value="aktif"
+                          >Aktif</mat-radio-button
+                        >
+                        <mat-radio-button
+                          class="mr-5"
+                          [color]="'primary'"
+                          value="tidak aktif"
+                          >Tidak Aktif</mat-radio-button
+                        >
+                        <mat-radio-button
+                          class="mr-5"
+                          [color]="'primary'"
+                          value="all"
+                          checked="true"
+                          >All</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="">
-                <mat-form-field
-                  appearance="outline"
-                  style="width: 350px; height: 1px"
-                  class="mt-1"
-                >
-                  <mat-label>
+                <div class="">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 350px; height: 1px"
+                    class="mt-1"
+                  >
+                    <mat-label>
+                      <img
+                        src="/assets/icons/searchBox.svg"
+                        style="
+                          margin-bottom: 7px;
+                          margin-right: 3px;
+                          height: 10px;
+                          width: 10px;
+                        "
+                      />
+                      Search
+                    </mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      [(ngModel)]="searchData"
+                      style="width: 80%"
+                      formControlName="searchData"
+                      (keyup.enter)="searchKelurahan()"
+                      (ngModelChange)="onSearchChange()"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="mt-3">
+                  <button
+                    (click)="searchKelurahan()"
+                    style="
+                      height: 50px;
+                      color: white;
+                      width: 130px;
+                      font-size: 18px;
+                    "
+                    color="accent"
+                    class="mr-4 ml-2 btnYellow"
+                    mat-button
+                  >
                     <img
-                      src="/assets/icons/searchBox.svg"
+                      src="/assets/icons/search.svg"
                       style="
-                        margin-bottom: 7px;
-                        margin-right: 3px;
-                        height: 10px;
-                        width: 10px;
+                        margin-bottom: 2px;
+                        margin-right: 6px;
+                        height: 18px;
+                        width: 18px;
                       "
                     />
                     Search
-                  </mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    [(ngModel)]="searchData"
-                    style="width: 80%"
-                    (keyup.enter)="searchKelurahan()"
-                    (ngModelChange)="onSearchChange()"
-                  />
-                </mat-form-field>
-              </div>
-              <div class="mt-3">
-                <button
-                  (click)="searchKelurahan()"
-                  style="
-                    height: 50px;
-                    color: white;
-                    width: 130px;
-                    font-size: 18px;
-                  "
-                  color="accent"
-                  class="mr-4 ml-2 btnYellow"
-                  mat-button
-                >
-                  <img
-                    src="/assets/icons/search.svg"
-                    style="
-                      margin-bottom: 2px;
-                      margin-right: 6px;
-                      height: 18px;
-                      width: 18px;
-                    "
-                  />
-                  Search
-                </button>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
 
         <div>
           <div class="toCenter" style="width: 100%">
@@ -299,12 +306,12 @@
                 <tr class="mat-row" *matNoDataRow>
                   <td
                     class="mat-cell text-center fs-5"
-                    colspan="8"
+                    colspan="10"
                     *ngIf="isLoading"
                   >
                     <mat-spinner class="container mt-5 mb-5"></mat-spinner>
                   </td>
-                  <td class="" colspan="9" *ngIf="error">
+                  <td class="" colspan="10" *ngIf="error">
                     <div class="alert alert-danger" role="alert">
                       <i class="fas fa-exclamation-circle mr-2"></i>
                       <strong>Error!</strong>
@@ -318,7 +325,7 @@
                   </td>
                   <td
                     class="mat-cell text-center fs-5 noData"
-                    colspan="8"
+                    colspan="10"
                     *ngIf="noData"
                   >
                     No Data Available!
