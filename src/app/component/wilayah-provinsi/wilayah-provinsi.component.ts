@@ -437,4 +437,7 @@ export class WilayahProvinsiComponent implements OnInit {
       }
     });
   }
+  refreshPage() {
+    location.reload();
+  }
 }

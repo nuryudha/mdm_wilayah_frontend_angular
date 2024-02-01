@@ -44,6 +44,9 @@
       Search
     </button>
   </div>
+  <div class="table-loading-overlay" *ngIf="isLoading">
+    <mat-spinner diameter="90" class="loading-spinner"></mat-spinner>
+  </div>
 </div>
 
 <div>
@@ -106,19 +109,31 @@
         </ng-container>
 
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell text-center fs-5" colspan="8" *ngIf="isLoading">
-            <mat-spinner class="container mt-5 mb-5"></mat-spinner>
+          <td
+            class="mat-cell text-center fs-5 noData"
+            colspan="10"
+            *ngIf="isLoading"
+          >
+            Loading...
           </td>
           <td class="" colspan="9" *ngIf="error">
             <div class="alert alert-danger" role="alert">
-              <i class="fas fa-exclamation-circle mr-2"></i>
+              <img
+                src="/assets/icons/priority-high.svg"
+                style="margin-right: 8px; height: 24px; width: 24px"
+              />
               <strong>Error!</strong>
               Service Unavailable
-              <i
-                class="fas fa-redo-alt ml-3"
-                (click)="getProvince()"
-                style="cursor: pointer"
-              ></i>
+              <img
+                src="/assets/icons/refresh.svg"
+                (click)="refreshPage()"
+                style="
+                  cursor: pointer;
+                  margin-left: 8px;
+                  height: 24px;
+                  width: 24px;
+                "
+              />
             </div>
           </td>
           <td

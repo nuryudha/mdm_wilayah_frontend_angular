@@ -176,14 +176,22 @@
           </td>
           <td class="" colspan="9" *ngIf="error">
             <div class="alert alert-danger" role="alert">
-              <i class="fas fa-exclamation-circle mr-2"></i>
+              <img
+                src="/assets/icons/priority-high.svg"
+                style="margin-right: 8px; height: 24px; width: 24px"
+              />
               <strong>Error!</strong>
               Service Unavailable
-              <i
-                class="fas fa-redo-alt ml-3"
+              <img
+                src="/assets/icons/refresh.svg"
                 (click)="refreshPage()"
-                style="cursor: pointer"
-              ></i>
+                style="
+                  cursor: pointer;
+                  margin-left: 8px;
+                  height: 24px;
+                  width: 24px;
+                "
+              />
             </div>
           </td>
           <td

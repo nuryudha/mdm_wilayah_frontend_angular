@@ -401,4 +401,8 @@ export class WilayahKabupatenComponent implements OnInit {
       }
     });
   }
+
+  refreshPage() {
+    location.reload();
+  }
 }

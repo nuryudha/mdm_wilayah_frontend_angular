@@ -402,4 +402,8 @@ export class WilayahKecamatanComponent implements OnInit {
       }
     });
   }
+
+  refreshPage() {
+    location.reload();
+  }
 }

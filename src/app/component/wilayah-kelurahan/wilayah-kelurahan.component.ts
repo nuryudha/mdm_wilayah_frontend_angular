@@ -708,4 +708,8 @@ export class WilayahKelurahanComponent implements OnInit {
 
     return url;
   }
+
+  refreshPage() {
+    location.reload();
+  }
 }

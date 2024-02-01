@@ -80,6 +80,7 @@ button.mat-icon-button:hover {
   display: flex;
   align-items: center;
 }
+
 /* LOADING */
 .table-loading-overlay {
   position: absolute;

@@ -332,4 +332,8 @@ export class DataKabupatenComponent implements OnInit {
     this.dialogRef.close(dataKabupaten);
     console.log(dataKabupaten);
   }
+
+  refreshPage() {
+    location.reload();
+  }
 }

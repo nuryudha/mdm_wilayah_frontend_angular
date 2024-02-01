@@ -385,4 +385,8 @@ export class WilayahNegaraComponent implements OnInit {
       }
     });
   }
+
+  refreshPage() {
+    location.reload();
+  }
 }

@@ -319,4 +319,8 @@ export class DataProvinsiComponent implements OnInit {
   chooseCell(dataProvinsi: any) {
     this.dialogRef.close(dataProvinsi);
   }
+
+  refreshPage() {
+    location.reload();
+  }
 }

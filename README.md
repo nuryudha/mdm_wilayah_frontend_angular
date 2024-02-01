@@ -22,6 +22,13 @@ desc :
 2. Untuk selanjutnya melakukan penyesuaian loading di tiap wilayah tertama saat get data. ini yang diutamakan dulu
 3. pengoptimalan await di tiap wilayah
 
+branch : maintenance_token_2
+commit : Pengoptimalan untuk loading dan perubahan i fa fas untuk ikon menjadi lokal
+desc :
+
+1. Semua loading sudah diterapkan untuk tiap wilayah dan perubahan i fas . 
+2. Kurang pengoptimalan pada status await di tiap wilayah
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
