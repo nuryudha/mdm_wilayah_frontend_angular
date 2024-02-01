@@ -13,7 +13,8 @@ import { Provinsi } from 'src/app/model/provinsiModel';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { WilayahService } from '../../../services/wilayah.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-kelurahan',
@@ -49,12 +50,23 @@ export class CreateKelurahanComponent implements OnInit {
     responseType: 'json',
   };
 
-  ngOnInit(): void {
-    this.getCountry();
-    this.getProvinsi();
-    this.getKabupaten();
+  async ngOnInit(): Promise<void> {
+    // this.getCountry();
+    // this.getProvinsi();
+    // this.getKabupaten();
+
+    this.isLoading = true;
     this.title.setTitle('Buat Kelurahan');
-    console.log(this.nik);
+
+    try {
+      await this.getKabupaten().toPromise();
+      await this.getProvinsi().toPromise();
+      await this.getCountry().toPromise();
+      this.isLoading = false;
+    } catch (error) {
+      this.isLoading = false;
+      console.error(error);
+    }
   }
 
   namaKelurahan: any;
@@ -79,70 +91,129 @@ export class CreateKelurahanComponent implements OnInit {
   noData = false;
   token: any;
 
-  getCountry() {
+  getCountry(): Observable<any> {
     this.httpOptions.headers = this.httpHeaders.set(
       'Authorization',
       `Bearer ${this.token}`
     );
-    this.isLoading = true;
-    this.data = false;
-    this.wilayahService
+
+    return this.wilayahService
       .getAllc(
         'country/?page=0&size=1000',
         this.httpOptions,
         catchError(this.handleError.handleErrorDetailUser.bind(this))
       )
-      .subscribe(
-        (res) => {
+      .pipe(
+        tap((res) => {
           this.dataNegara = res.body.result;
           this.dataSourceNegara = new MatTableDataSource(this.dataNegara);
           this.data = true;
           this.isLoading = false;
-        },
-        (error) => {
-          console.log(error);
-          this.statusText = error.statusText;
+        }),
+        catchError((error) => {
           this.error = true;
-          Swal.fire({
-            icon: 'error',
-            title: 'Service Unavailable',
-          });
-        }
+          this.handleErrors(error);
+          throw error;
+        })
       );
+
+    // this.isLoading = true;
+    // this.data = false;
+    // this.wilayahService
+    //   .getAllc(
+    //     'country/?page=0&size=1000',
+    //     this.httpOptions,
+    //     catchError(this.handleError.handleErrorDetailUser.bind(this))
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       this.dataNegara = res.body.result;
+    //       this.dataSourceNegara = new MatTableDataSource(this.dataNegara);
+    //       this.data = true;
+    //       this.isLoading = false;
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //       this.statusText = error.statusText;
+    //       this.error = true;
+    //       Swal.fire({
+    //         icon: 'error',
+    //         title: 'Service Unavailable',
+    //       });
+    //     }
+    //   );
   }
 
-  getProvinsi() {
+  getProvinsi(): Observable<any> {
     this.httpOptions.headers = this.httpHeaders.set(
       'Authorization',
       `Bearer ${this.token}`
     );
-    this.wilayahService
+
+    return this.wilayahService
       .getAllc(
         'province/?page=0&size=1000',
         this.httpOptions,
         catchError(this.handleError.handleErrorDetailUser.bind(this))
       )
-      .subscribe((res) => {
-        this.dataProvinsi = res.body.result;
-        this.dataSourceProvinsi = new MatTableDataSource(this.dataProvinsi);
-      });
+      .pipe(
+        tap((res) => {
+          this.dataProvinsi = res.body.result;
+          this.dataSourceProvinsi = new MatTableDataSource(this.dataProvinsi);
+        }),
+        catchError((error) => {
+          this.error = true;
+          this.handleErrors(error);
+          throw error;
+        })
+      );
+
+    // this.wilayahService
+    //   .getAllc(
+    //     'province/?page=0&size=1000',
+    //     this.httpOptions,
+    //     catchError(this.handleError.handleErrorDetailUser.bind(this))
+    //   )
+    //   .subscribe((res) => {
+    //     this.dataProvinsi = res.body.result;
+    //     this.dataSourceProvinsi = new MatTableDataSource(this.dataProvinsi);
+    //   });
   }
 
-  getKabupaten() {
+  getKabupaten(): Observable<any> {
     this.httpOptions.headers = this.httpHeaders.set(
       'Authorization',
       `Bearer ${this.token}`
     );
-    this.wilayahService
+
+    return this.wilayahService
       .getAllc(
         'city/?page=0&size=1000',
         this.httpOptions,
         catchError(this.handleError.handleErrorDetailUser.bind(this))
       )
-      .subscribe((res) => {
-        this.dataKabupaten = res.body.result;
-        this.dataSourceKabupaten = new MatTableDataSource(this.dataKabupaten);
-      });
+      .pipe(
+        tap((res) => {
+          this.dataKabupaten = res.body.result;
+          this.dataSourceKabupaten = new MatTableDataSource(this.dataKabupaten);
+        }),
+        catchError((error) => {
+          this.error = true;
+          this.handleErrors(error);
+          throw error;
+        })
+      );
+
+    // this.wilayahService
+    //   .getAllc(
+    //     'city/?page=0&size=1000',
+    //     this.httpOptions,
+    //     catchError(this.handleError.handleErrorDetailUser.bind(this))
+    //   )
+    //   .subscribe((res) => {
+    //     this.dataKabupaten = res.body.result;
+    //     this.dataSourceKabupaten = new MatTableDataSource(this.dataKabupaten);
+    //   });
   }
 
   getDataKecamatan() {
@@ -314,6 +385,43 @@ export class CreateKelurahanComponent implements OnInit {
       selectIdKabupaten: { value: '', disabled: true },
       selectIdProvinsi: { value: '', disabled: true },
       selectIdNegara: { value: '', disabled: true },
+    });
+  }
+
+  handleErrors(error: any) {
+    const errorText =
+      error.status === '400'
+        ? error.error.status.responseDesc
+        : 'Service Unavailable';
+
+    if (error.status !== '400') {
+      this.showSwalError(errorText);
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: errorText,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }
+
+  showSwalError(errorText: string) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: 'error',
+      title: errorText,
     });
   }
 }

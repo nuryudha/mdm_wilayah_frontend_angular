@@ -28,16 +28,25 @@
                 formControlName="namaProvinsi"
                 name="namaProvinsi"
                 [(ngModel)]="namaProvinsi"
-                appAlfabetOnly
                 oninput="this.value = this.value.toUpperCase()"
+                appAlfabetOnly
                 required
                 appearance="outline"
                 maxlength="100"
               />
-              <mat-error *ngIf="formValidasi.controls.namaProvinsi.hasError('required')"> Nama Provinsi tidak boleh kosong </mat-error>
-              <mat-error *ngIf="
-              !formValidasi.controls.namaProvinsi.hasError('required') &&
-              !formValidasi.controls.namaProvinsi.valid"> Invalid </mat-error>
+              <mat-error
+                *ngIf="formValidasi.controls.namaProvinsi.hasError('required')"
+              >
+                Nama Provinsi tidak boleh kosong
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  !formValidasi.controls.namaProvinsi.hasError('required') &&
+                  !formValidasi.controls.namaProvinsi.valid
+                "
+              >
+                Invalid
+              </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Negara</mat-label>
@@ -59,7 +68,10 @@
               <mat-error>Negara tidak boleh kosong </mat-error>
             </mat-form-field>
             <button mat-raised-button color="primary" class="mx-3">Save</button>
-            <button mat-raised-button routerLink="/wilayah-provinsi-auth/{{token}}">
+            <button
+              mat-raised-button
+              routerLink="/wilayah-provinsi-auth/{{ token }}"
+            >
               Cancel
             </button>
           </div>

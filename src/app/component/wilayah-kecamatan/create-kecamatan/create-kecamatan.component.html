@@ -30,6 +30,7 @@
                 [(ngModel)]="namaKecamatan"
                 oninput="this.value = this.value.toUpperCase()"
                 required
+                appAlfabetOnly
                 appearance="outline"
                 maxlength="50"
               />
@@ -58,7 +59,6 @@
                 formControlName="namaKabupaten"
                 name="namaKabupaten"
                 [(ngModel)]="namaKabupaten"
-                appAlfabetOnly
                 required
                 appearance="outline"
               />

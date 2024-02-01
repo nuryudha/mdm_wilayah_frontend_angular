@@ -247,7 +247,7 @@ export class WilayahKelurahanComponent implements OnInit {
       this.url = `village/?sort=villageName,asc&page=${this.pageIndex}&size=${this.pageSize}&flag.equals=${this.flag}`;
     }
 
-    if (this.searchData == '') {
+    if (this.searchData == null || '' || undefined) {
       this.httpOptions.headers = this.httpHeaders.set(
         'Authorization',
         `Bearer ${this.token}`
@@ -708,6 +708,4 @@ export class WilayahKelurahanComponent implements OnInit {
 
     return url;
   }
-
-
 }

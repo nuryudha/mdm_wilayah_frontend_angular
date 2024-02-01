@@ -407,8 +407,8 @@ export class EditKelurahanComponent implements OnInit {
       text: `Apakah kamu yakin ingin me${title} data ini?`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: 'green',
       confirmButtonText: `Ya, ${title}`,
       cancelButtonText: 'Tidak',
     }).then((result) => {

@@ -28,6 +28,7 @@
                 formControlName="namaKelurahan"
                 name="namaKelurahan"
                 oninput="this.value = this.value.toUpperCase()"
+                appAlfabetOnly
                 required
                 appearance="outline"
                 [(ngModel)]="namaKelurahan"
@@ -73,7 +74,6 @@
                 matInput
                 formControlName="namaKecamatan"
                 name="namaKecamatan"
-                appAlfabetOnly
                 required
                 appearance="outline"
                 [(ngModel)]="namaKecamatan"
@@ -145,16 +145,23 @@
               </mat-select>
               <mat-error>Negara tidak boleh kosong </mat-error>
             </mat-form-field>
-            <button mat-raised-button color="primary" class="mx-3">
-              <!-- (click)="createKelurahan()" -->
-              Save
-            </button>
-            <button
-              mat-raised-button
-              routerLink="/wilayah-kelurahan-auth/{{ token }}"
-            >
-              Cancel
-            </button>
+
+            <div class="d-flex justify-content-end">
+              <div>
+                <button mat-raised-button color="primary" class="mx-3">
+                  <!-- (click)="createKelurahan()" -->
+                  Save
+                </button>
+              </div>
+              <div>
+                <button
+                  mat-raised-button
+                  routerLink="/wilayah-kelurahan-auth/{{ token }}"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
           <mat-spinner *ngIf="isLoading"></mat-spinner>
         </mat-card>

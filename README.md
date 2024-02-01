@@ -4,14 +4,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Notes Commit
 
-maintenance_token_2
+branch : maintenance_token_2
 commit : penyesuaian penggunaan service di ui wilayah dan loading data
 desc :
 
 1. pada bagian kelurahan sudah optimal pada bagian get atau tampilan awal baik search juga sudah ada loading dan pakai await jadi datanya harus menunggu di get 1 1 . jadi minim error mungkin tapi kalau mau di perbaiki mungkin dibuat reusable pada beberapa bagian karena masih mengulang
-2. pada bagian edit juga sudah optimal menggunakan await yang datanya harus menunggu dahulu supaya data dapat disentuh. mungkin kedepannya harus menerapkan juga di edit kelurahan
+2. pada bagian edit juga sudah optimal menggunakan await yang datanya harus menunggu dahulu supaya data dapat disentuh. mungkin kedepannya harus menerapkan juga di create kelurahan
 3. untuk data kecamatan di keluarahan juga perlu di optimalkan
 4. SETELAH SELESAI maka bisa dibuild dulu di dev. tapi tentu saja demo dulu ke backend
+
+
+branch : maintenance_token_2
+commit : Maintenance tiket #172901 Done
+desc :
+
+1. Semua bagian di tiket sudah done termasuk penggunana tanda baca  ./-() . selain itu untuk non aktif dan aktif di kelurahan. juga minimal dan maksimal kode pos 5 karakter
+2. Untuk selanjutnya melakukan penyesuaian loading di tiap wilayah tertama saat get data. ini yang diutamakan dulu
+3. pengoptimalan await di tiap wilayah
 
 ## Development server
 
